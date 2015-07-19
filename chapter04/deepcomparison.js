@@ -18,14 +18,6 @@ var deepEqual = function(compare1, compare2) {
     return testBoolean;
 }
 
-/*        for (var prop1 in compare1) {
-            if (!compare2.hasOwnProperty(prop1)) { return false; }
-            for (var prop2 in compare2) {
-                if (!compare1.hasOwnProperty(prop2)) { return false; }
-                return deepEqual(compare1.prop1, compare2.prop2);
-            }
-        }*/
-
 console.log(typeof null);
 console.log(null);
 console.log(1 == null);

@@ -1,0 +1,33 @@
+<h1>Heading with a <span>span</span> element.</h1>
+<p>A paragraph with <span>one</span>, <span>two</span>
+  spans.</p>
+
+<script>
+    //Since nodelists don't naturally have a concat method,
+    //pass the array that is storing all the children into all the recursive calls
+  function byTagName(node, tagName, tagNameList) {
+    if (arguments[2] === undefined) {
+        var tagNameList = new Array();
+    }
+    var children = node.childNodes;
+    if (children.length == 0) {
+        return;
+    }
+    for(var i = 0; i < children.length; i++) {
+        if(children[i].tagName === tagName.toUpperCase()) {
+            tagNameList.push(children[i]);
+        }
+        byTagName(children[i], tagName, tagNameList);
+    }
+    return tagNameList;
+  }
+
+  console.log(byTagName(document.body, "h1").length);
+  // → 1
+  console.log(byTagName(document.body, "span").length);
+  // → 3
+  var para = document.querySelector("p");
+  console.log(byTagName(para, "span").length);
+  // → 2
+</script>
+

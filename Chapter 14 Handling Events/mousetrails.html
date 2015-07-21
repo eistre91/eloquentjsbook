@@ -1,0 +1,47 @@
+<style>
+  .trail { /* className for the trail elements */
+    position: absolute;
+    height: 6px; width: 6px;
+    border-radius: 3px;
+    background: teal;
+  }
+  body {
+    height: 300px;
+  }
+</style>
+
+<body>
+
+<script>
+  var lastEvent;
+  var lastMovedTrailElement = 0;
+  var trailElements = [];
+
+  initializeTrailElements();
+  
+  function animateTrail(event) {
+    trailElements[lastMovedTrailElement].style.left = (event.pageX - 4) + "px";
+    trailElements[lastMovedTrailElement].style.top = (event.pageY - 4) + "px";
+    console.log(lastMovedTrailElement);
+    if(lastMovedTrailElement >= trailElements.length-1) {
+        lastMovedTrailElement = 0;
+    } else {
+        lastMovedTrailElement++;
+    }
+  }
+  
+  addEventListener("mousemove", function(event) {
+    animateTrail(event);
+  });
+  
+  function initializeTrailElements() {
+      for(var i = 0; i < 50; i++) {
+          var newTrailElement = document.createElement("div");
+          trailElements.push(newTrailElement);
+          trailElements[i].className = "trail";
+          document.body.appendChild(trailElements[i]);
+      }
+  }
+</script>
+
+</body>

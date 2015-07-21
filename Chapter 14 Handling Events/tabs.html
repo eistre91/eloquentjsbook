@@ -1,0 +1,55 @@
+<div id="wrapper">
+  <div data-tabname="one">Tab one</div>
+  <div data-tabname="two">Tab two</div>
+  <div data-tabname="three">Tab three</div>
+</div>
+<script>
+  var divs = document.querySelectorAll("#wrapper div");
+  var buttons = [];
+  function asTabs(node) {
+    var initialFirstChild = node.firstChild;
+    for(var i = 0; i < divs.length; i++) {
+        var newButton = document.createElement("button");
+        var buttonText = document.createTextNode(divs[i].getAttribute("data-tabname"));
+        newButton.appendChild(buttonText);
+        node.insertBefore(newButton, initialFirstChild);
+        buttons.push(newButton);
+    }
+  }
+  
+  //Kind of a hacky way to do this.
+  document.body.addEventListener("click", function(event) {
+    if (event.target.nodeName == "BUTTON")
+      console.log("Clicked", event.target.textContent);
+      if(event.target.textContent == "one") {
+          divs[0].style.display = "block";
+          divs[1].style.display = "none";
+          divs[2].style.display = "none";
+          buttons[0].style.background = "red";
+          buttons[1].style.background = "green";
+          buttons[2].style.background = "green";
+      } else if (event.target.textContent == "two") {
+          divs[0].style.display = "none";
+          divs[1].style.display = "block";
+          divs[2].style.display = "none";
+          buttons[0].style.background = "green";
+          buttons[1].style.background = "red";
+          buttons[2].style.background = "green";
+      } else if (event.target.textContent == "three") {
+          divs[0].style.display = "none";
+          divs[1].style.display = "none";
+          divs[2].style.display = "block";
+          buttons[0].style.background = "green";
+          buttons[1].style.background = "green";
+          buttons[2].style.background = "red";
+      }
+  });
+  
+  asTabs(document.querySelector("#wrapper"));
+  divs[0].style.display = "block";
+  divs[1].style.display = "none";
+  divs[2].style.display = "none";
+  buttons[0].style.background = "red";
+  buttons[1].style.background = "green";
+  buttons[2].style.background = "green";
+</script>

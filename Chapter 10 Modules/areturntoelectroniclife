@@ -1,0 +1,26 @@
+Module 1: Vector
+
+Module 2: Grid (requires Module 1)
+            directions
+            directionNames
+            dirPlus
+            
+Module 3: World (requires Module 2)
+            View
+            LifelikeWorld
+            elementFromChar
+            charFromElement
+            
+Module 4: View (requires Module 3, 1)
+
+Module 5: Critter
+            Wall
+            BouncingCritter
+            WallFollower
+            Plant
+            PlantEater
+            SmartPlantEater
+            Tiger
+            
+Misc: randomElement
+

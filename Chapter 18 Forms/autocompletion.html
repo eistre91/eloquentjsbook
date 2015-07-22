@@ -1,0 +1,79 @@
+<input type="text" id="field">
+<div id="suggestions" style="cursor: pointer"></div>
+
+<script>
+    // Builds up an array with global variable names, like
+    // 'alert', 'document', and 'scrollTo'
+    var terms = [];
+    for (var name in window)
+        terms.push(name);
+    
+    var field = document.querySelector("#field");
+    field.addEventListener("input", function(event) {
+       computeSuggestions();
+       if (field.value.charAt(field.selectionStart - 1) == " ") {
+           console.log(field.value.charAt(field.selectionStart - 1));
+           wipeSuggestions();
+       }
+    });
+    
+    function fillInSuggestion(word) {
+        var from = field.selectionStart;
+        word = word + " ";
+        field.value = field.value.slice(0, from) + word +
+                  field.value.slice(from + word.length);
+        // Put the cursor after the word
+        field.selectionStart = field.selectionEnd =
+        from + word.length;
+    }
+    
+    var suggestions = document.querySelector("#suggestions");
+    var currentSuggestions = [];
+    function addSuggestionToList(suggest) {
+        var alreadySuggested = false;
+        for (var i = 0; i < currentSuggestions.length; i++) {
+            if(suggest == currentSuggestions[i]) {
+                alreadySuggested = true;
+                break;
+            }
+        }
+        if (!alreadySuggested) {
+            var newDiv = document.createElement("div");
+            newDiv.textContent = suggest;
+            suggestions.appendChild(newDiv);
+            currentSuggestions.push(newDiv.textContent);
+            newDiv.addEventListener("click", function(event) {
+              fillInSuggestion(newDiv.textContent);
+              wipeSuggestions();
+            });
+        }
+    }
+    
+    function computeSuggestions() {
+        //note this cursorposition only works if it is actually at the end of the word
+        //otherwise should compute end of word too
+        var cursorPosition = field.selectionStart;
+        var startOfWord = field.selectionStart;
+        while(startOfWord > 0 && field.value[startOfWord-1] != " ") {
+            startOfWord--;
+        }
+        if(field.value.slice(startOfWord, cursorPosition).match(/\b\S/)) {
+            var matchCheck = new RegExp("\\b" + field.value.slice(startOfWord, cursorPosition));
+            console.log("field value slice: " + field.value.slice(startOfWord, cursorPosition));
+            console.log(matchCheck);
+            for (var i = 0; i < terms.length; i++) {
+                //console.log(terms[i].match(matchCheck) + " " + matchCheck)
+                if (terms[i].match(matchCheck) != null) {
+                    addSuggestionToList(terms[i]);
+                }
+            }
+        }
+    }
+    
+    function wipeSuggestions() {
+        while (suggestions.firstChild) {
+            suggestions.removeChild(suggestions.firstChild);
+        }
+        currentSuggestions = new Array();
+    }
+</script>
